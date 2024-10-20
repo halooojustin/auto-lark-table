@@ -49,60 +49,78 @@ def parse_text_with_gpt4(text):
         "Authorization": f"Bearer {GPT4_API_KEY}",
         "Content-Type": "application/json"
     }
-    system_prompt = '''
-    你是一个专门解析文本的AI助手。请将给定的文本解析为JSON格式，包含以下字段：登录说明、账号信息、产品。其中账号信息应该是一个数组，每个元素对应一行账号信息。例如
+    system_prompt = system_prompt = '''
+    你是一个专门解析文本的AI助手。请将给定的文本解析为JSON格式，严格遵循以下要求：
+
+    1. 输出格式必须是一个包含 "records" 数组的JSON对象。
+    2. 每个记录应包含 "fields" 对象，其中包含 "产品"、"登录说明" 和 "账号信息" 三个字段。
+    3. "产品" 和 "登录说明" 对于同一产品的所有账号应该相同。
+    4. "账号信息" 应该是单行文本，包含完整的账号信息。
+    5. 不同产品的账号信息应该分开成不同的记录。
+
+    示例输入：
     Cursor:
+    谷歌登录 账号-密码-辅助邮箱
+    KatharinaNijazi144@gmail.com----passwordxxx----McdonalFeagin322@pmail.1s.fr
+    DiasSofia960@gmail.com----nx4hhg6m4zr----skpasjhoysiu@outlook.com
+    Bolt:
+    会员-账号（-辅助邮箱）
+    ShahrourLolo641@gmail.com----passwordxxx----caguewilliaq@hotmail.com
+    V0:
+    邮箱验证码登录 账号-密码
+    atoubaboily@hotmail.com----passwordxxxx
+    Reweb:
+    账号-密码
+    csengakye@hotmail.com----passwordxxxx
 
-"谷歌登录 账号-密码-辅助邮箱"
-"KatharinaNijazi144@gmail.com----passwordxxx----McdonalFeagin322@pmail.1s.fr"
-Bolt:
-
-"会员-账号（-辅助邮箱）"
-"ShahrourLolo641@gmail.com----passwordxxx----caguewilliaq@hotmail.com"
-V0:
-
-"邮箱验证码登录 账号-密码"
-"atoubaboily@hotmail.com----passwordxxxx"
-Reweb:
-
-"账号-密码"
-"csengakye@hotmail.com----passwordxxxx"
-    目标数据结构如下,账号信息需要是多行，产品、登录说明 需要冗余：
-    ```
+    示例输出：
     {
-    "records": [
-        {
-            "fields": {
-                "产品": "Cursor",
-                "登录说明": "谷歌登录 账号-密码-辅助邮箱",
-                "账号信息": "KatharinaNijazi144@gmail.com----passwordxxx----McdonalFeagin322@pmail.1s.fr"
+        "records": [
+            {
+                "fields": {
+                    "产品": "Cursor",
+                    "登录说明": "谷歌登录 账号-密码-辅助邮箱",
+                    "账号信息": "KatharinaNijazi144@gmail.com----passwordxxx----McdonalFeagin322@pmail.1s.fr"
+                }
+            },
+            {
+                "fields": {
+                    "产品": "Cursor",
+                    "登录说明": "谷歌登录 账号-密码-辅助邮箱",
+                    "账号信息": "DiasSofia960@gmail.com----nx4hhg6m4zr----skpasjhoysiu@outlook.com"
+                }
+            },
+            {
+                "fields": {
+                    "产品": "Bolt",
+                    "登录说明": "会员-账号（-辅助邮箱）",
+                    "账号信息": "ShahrourLolo641@gmail.com----passwordxxx----caguewilliaq@hotmail.com"
+                }
+            },
+            {
+                "fields": {
+                    "产品": "V0",
+                    "登录说明": "邮箱验证码登录 账号-密码",
+                    "账号信息": "atoubaboily@hotmail.com----passwordxxxx"
+                }
+            },
+            {
+                "fields": {
+                    "产品": "Reweb",
+                    "登录说明": "账号-密码",
+                    "账号信息": "csengakye@hotmail.com----passwordxxxx"
+                }
             }
-        },
-        {
-            "fields": {
-                "产品": "Bolt",
-                "登录说明": "会员-账号（-辅助邮箱）",
-                "账号信息": "ShahrourLolo641@gmail.com----passwordxxx----caguewilliaq@hotmail.com"
-            }
-        },
-        {
-            "fields": {
-                "产品": "V0",
-                "登录说明": "邮箱验证码登录 账号-密码",
-                "账号信息": "atoubaboily@hotmail.com----passwordxxx"
-            }
-        },
-        {
-            "fields": {
-                "产品": "Reweb",
-                "登录说明": "账号-密码",
-                "账号信息": "csengakye@hotmail.com----passwordxxx"
-            }
-        }
-    ]
+        ]
     }
-    ```
-    要求：返回的结果只能是 JSON 数据，不能有其他非 JSON 字符，例如不要有 "```json"
+
+    注意事项：
+    1. 严格遵循示例输出的JSON结构。
+    2. 确保每个账号信息都是一个单独的记录。
+    3. 不要添加任何额外的注释或说明，只返回纯JSON数据。
+    4. 确保JSON格式正确，可以被直接解析。
+    5. 如果输入中包含多个产品，请为每个产品的每个账号创建单独的记录。
+    6. 返回的结果只能是JSON数据，不能有其他非JSON字符，例如不要有 "```json" 或 "```"。
     '''
     data = {
         "model": "gpt-4o",
