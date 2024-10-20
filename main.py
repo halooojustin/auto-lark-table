@@ -54,19 +54,19 @@ def parse_text_with_gpt4(text):
     Cursor:
 
 "谷歌登录 账号-密码-辅助邮箱"
-"KatharinaNijazi144@gmail.com----1g97xdqjd----McdonalFeagin322@pmail.1s.fr"
+"KatharinaNijazi144@gmail.com----passwordxxx----McdonalFeagin322@pmail.1s.fr"
 Bolt:
 
 "会员-账号（-辅助邮箱）"
-"ShahrourLolo641@gmail.com----gte7pcvn5t8----caguewilliaq@hotmail.com"
+"ShahrourLolo641@gmail.com----passwordxxx----caguewilliaq@hotmail.com"
 V0:
 
 "邮箱验证码登录 账号-密码"
-"atoubaboily@hotmail.com----e0V0KxGpBhnE"
+"atoubaboily@hotmail.com----passwordxxxx"
 Reweb:
 
 "账号-密码"
-"csengakye@hotmail.com----Acfm6Hp0DhPjSW"
+"csengakye@hotmail.com----passwordxxxx"
     目标数据结构如下,账号信息需要是多行，产品、登录说明 需要冗余：
     ```
     {
@@ -75,28 +75,28 @@ Reweb:
             "fields": {
                 "产品": "Cursor",
                 "登录说明": "谷歌登录 账号-密码-辅助邮箱",
-                "账号信息": "KatharinaNijazi144@gmail.com----1g97xdqjd----McdonalFeagin322@pmail.1s.fr"
+                "账号信息": "KatharinaNijazi144@gmail.com----passwordxxx----McdonalFeagin322@pmail.1s.fr"
             }
         },
         {
             "fields": {
                 "产品": "Bolt",
                 "登录说明": "会员-账号（-辅助邮箱）",
-                "账号信息": "ShahrourLolo641@gmail.com----gte7pcvn5t8----caguewilliaq@hotmail.com"
+                "账号信息": "ShahrourLolo641@gmail.com----passwordxxx----caguewilliaq@hotmail.com"
             }
         },
         {
             "fields": {
                 "产品": "V0",
                 "登录说明": "邮箱验证码登录 账号-密码",
-                "账号信息": "atoubaboily@hotmail.com----e0V0KxGpBhnE"
+                "账号信息": "atoubaboily@hotmail.com----passwordxxx"
             }
         },
         {
             "fields": {
                 "产品": "Reweb",
                 "登录说明": "账号-密码",
-                "账号信息": "csengakye@hotmail.com----Acfm6Hp0DhPjSW"
+                "账号信息": "csengakye@hotmail.com----passwordxxx"
             }
         }
     ]
